@@ -1,11 +1,14 @@
 import { useFormik } from 'formik';
-import { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { ReactElement, useContext } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import axios from '../api/axios';
+import { AuthActionTypes, AuthDispatchContext } from '../contexts/AuthProvider';
 import LoginSchema from '../validations/LoginSchema';
 import AuthButton from '../components/AuthButton';
 import TextField from '../components/TextField';
 
-const Login = (): ReactElement => {
+const Login = ({ history }: RouteComponentProps): ReactElement => {
+  const dispatch = useContext(AuthDispatchContext);
   const {
     handleSubmit,
     handleBlur,
@@ -17,9 +20,26 @@ const Login = (): ReactElement => {
     initialValues: { email: '', password: '' },
     validationSchema: LoginSchema,
     validateOnBlur: false,
-    onSubmit: ({ email, password }) => {
-      console.log(email);
-      console.log(password);
+    onSubmit: async ({ email, password }) => {
+      try {
+        const { headers, data } = await axios.post('/auth/login', {
+          email,
+          password,
+        });
+        localStorage.setItem('token', headers.authorization);
+        dispatch({
+          type: AuthActionTypes.LOGIN,
+          payload: {
+            authenticated: true,
+            userId: data.userId,
+            username: data.username,
+            imageUrl: data.profile.imageUrl,
+          },
+        });
+        history.push('/');
+      } catch (error) {
+        console.log(error.response.data.errors);
+      }
     },
   });
 

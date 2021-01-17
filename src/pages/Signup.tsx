@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import axios from '../api/axios';
 import SignupSchema from '../validations/SignupSchema';
 import AuthButton from '../components/AuthButton';
 import TextField from '../components/TextField';
@@ -17,10 +18,17 @@ const Signup = (): ReactElement => {
     initialValues: { username: '', email: '', password: '' },
     validationSchema: SignupSchema,
     validateOnBlur: false,
-    onSubmit: ({ username, email, password }) => {
-      console.log(username);
-      console.log(email);
-      console.log(password);
+    onSubmit: async ({ username, email, password }) => {
+      try {
+        const response = await axios.post('/auth/signup', {
+          username,
+          email,
+          password,
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.errors);
+      }
     },
   });
 
