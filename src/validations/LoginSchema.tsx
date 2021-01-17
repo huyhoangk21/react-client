@@ -1,8 +1,8 @@
-import yup from 'yup';
+import * as Yup from 'yup';
 
-const LoginSchema = yup.object().shape({
-  email: yup.string().required('Email must not be empty'),
-  password: yup.string().required('Password must not be empty'),
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().required('Email must not be empty'),
+  password: Yup.string().required('Password must not be empty'),
 });
 
 export default LoginSchema;

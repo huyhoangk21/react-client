@@ -1,17 +1,12 @@
 import { Fragment, InputHTMLAttributes, ReactElement, useState } from 'react';
 
-interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-}
-
 const TextField = ({
   className,
-  error,
   id,
   name,
   type,
   ...otherInputProps
-}: TextFieldProps): ReactElement => {
+}: InputHTMLAttributes<HTMLInputElement>): ReactElement => {
   const [show, setShow] = useState(false);
 
   return (
@@ -30,13 +25,12 @@ const TextField = ({
         {id == 'password' && (
           <small
             onClick={() => setShow(!show)}
-            className='font-semibold absolute right-2 top-8'
+            className='font-semibold absolute right-2 top-8 cursor-pointer select-none'
           >
             {show ? 'Hide' : 'Show'}
           </small>
         )}
       </div>
-      <small className='text-red-500'>{error}</small>
     </Fragment>
   );
 };
