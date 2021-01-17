@@ -1,8 +1,4 @@
-import React, {
-  ButtonHTMLAttributes,
-  PropsWithChildren,
-  ReactElement,
-} from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren, ReactElement } from 'react';
 
 const AuthButton = ({
   children,
