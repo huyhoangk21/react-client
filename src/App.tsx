@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import DynamicRoute from './components/DynamicRoute';
 import AuthProvider from './contexts/AuthProvider';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -10,9 +11,15 @@ const App = (): ReactElement => {
     <AuthProvider>
       <Router>
         <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/login' component={Login} />
-          <Route path='/signup' component={Signup} />
+          <DynamicRoute
+            exact
+            path='/'
+            component={Home}
+            shouldAuthenticate
+            redirectTo='/login'
+          />
+          <DynamicRoute path='/login' component={Login} redirectTo='/' />
+          <DynamicRoute path='/signup' component={Signup} redirectTo='/' />
         </Switch>
       </Router>
     </AuthProvider>
