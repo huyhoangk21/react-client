@@ -39,8 +39,7 @@ const Login = ({ history }: RouteComponentProps): ReactElement => {
         });
         history.push('/');
       } catch (error) {
-        const errors: string[] = error.response.data.errors;
-        setError(errors[Math.floor(Math.random() * errors.length)]);
+        setError('Email or password is incorrect');
       }
     },
   });
