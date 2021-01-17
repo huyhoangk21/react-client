@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { ReactElement, useContext } from 'react';
+import { ReactElement, useContext, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from '../api/axios';
 import { AuthActionTypes, AuthDispatchContext } from '../contexts/AuthProvider';
@@ -9,6 +9,7 @@ import TextField from '../components/TextField';
 
 const Login = ({ history }: RouteComponentProps): ReactElement => {
   const dispatch = useContext(AuthDispatchContext);
+  const [error, setError] = useState('');
   const {
     handleSubmit,
     handleBlur,
@@ -38,7 +39,8 @@ const Login = ({ history }: RouteComponentProps): ReactElement => {
         });
         history.push('/');
       } catch (error) {
-        console.log(error.response.data.errors);
+        const errors: string[] = error.response.data.errors;
+        setError(errors[Math.floor(Math.random() * errors.length)]);
       }
     },
   });
@@ -76,7 +78,7 @@ const Login = ({ history }: RouteComponentProps): ReactElement => {
           onBlur={handleBlur}
         />
         <p className='text-red-500 mt-3 text-center text-sm'>
-          {errors.email || errors.password}
+          {errors.email || errors.password || error}
         </p>
         <AuthButton type='submit' disabled={disabledButton}>
           Log in

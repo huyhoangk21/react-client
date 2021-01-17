@@ -1,12 +1,14 @@
 import { useFormik } from 'formik';
-import { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { ReactElement, useState } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from '../api/axios';
 import SignupSchema from '../validations/SignupSchema';
 import AuthButton from '../components/AuthButton';
 import TextField from '../components/TextField';
 
-const Signup = (): ReactElement => {
+const Signup = ({ history }: RouteComponentProps): ReactElement => {
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const {
     handleSubmit,
     handleBlur,
@@ -20,14 +22,16 @@ const Signup = (): ReactElement => {
     validateOnBlur: false,
     onSubmit: async ({ username, email, password }) => {
       try {
-        const response = await axios.post('/auth/signup', {
+        await axios.post('/auth/signup', {
           username,
           email,
           password,
         });
-        console.log(response);
+        setMessage('Signed up successfully');
+        setTimeout(() => history.push('/login'), 2000);
       } catch (error) {
-        console.log(error.response.data.errors);
+        const errors: string[] = error.response.data.errors;
+        setError(errors[Math.floor(Math.random() * errors.length)]);
       }
     },
   });
@@ -79,8 +83,14 @@ const Signup = (): ReactElement => {
           onBlur={handleBlur}
         />
         <p className='text-red-500 mt-3 text-center text-sm'>
-          {errors.username || errors.email || errors.password}
+          {errors.username || errors.email || errors.password || error}
         </p>
+        <p className='text-green-500 mt-3 text-center text-sm'>{message}</p>
+        {message && (
+          <p className='text-green-500 mt-3 text-center text-sm'>
+            Redirecting to login page...
+          </p>
+        )}
         <AuthButton type='submit' disabled={disabledButton}>
           Sign up
         </AuthButton>
