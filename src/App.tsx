@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import DynamicRoute from './components/DynamicRoute';
+import DynamicRoute from './components/functional/DynamicRoute';
 import AuthProvider from './contexts/AuthProvider';
 import Home from './pages/Home';
 import Login from './pages/Login';

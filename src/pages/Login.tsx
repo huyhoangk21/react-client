@@ -4,8 +4,8 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from '../api/axios';
 import { AuthActionTypes, AuthDispatchContext } from '../contexts/AuthProvider';
 import LoginSchema from '../validations/LoginSchema';
-import AuthButton from '../components/AuthButton';
-import TextField from '../components/TextField';
+import AuthButton from '../components/ui/AuthButton';
+import TextField from '../components/ui/TextField';
 
 const Login = ({ history }: RouteComponentProps): ReactElement => {
   const dispatch = useContext(AuthDispatchContext);

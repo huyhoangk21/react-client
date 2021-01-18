@@ -5,7 +5,7 @@ import {
   Redirect,
   RouteComponentProps,
 } from 'react-router-dom';
-import { AuthStateContext } from '../contexts/AuthProvider';
+import { AuthStateContext } from '../../contexts/AuthProvider';
 
 interface DynamicRouteProps extends RouteProps {
   component: ComponentType<RouteComponentProps<any>>;

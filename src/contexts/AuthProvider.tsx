@@ -74,7 +74,9 @@ const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
               authenticated: true,
               userId: data.userId,
               username: data.username,
-              imageUrl: data.profile.imageUrl,
+              imageUrl:
+                // data.profile.imageUrl ||
+                'https://secure.gravatar.com/avatar/?s=190&d=mm&r=g',
             },
           });
         } catch (error) {

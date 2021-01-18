@@ -11,7 +11,7 @@ const AuthButton = ({
   return (
     <button
       className={`bg-light-blue text-white text-sm font-semibold w-full py-1.5 rounded-sm mt-6 ${className} ${
-        disabled && 'cursor-not-allowed opacity-90'
+        disabled && 'cursor-not-allowed opacity-40'
       }`}
       disabled={disabled}
       {...otherButtonProps}

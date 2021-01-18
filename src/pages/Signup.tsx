@@ -3,8 +3,8 @@ import { ReactElement, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from '../api/axios';
 import SignupSchema from '../validations/SignupSchema';
-import AuthButton from '../components/AuthButton';
-import TextField from '../components/TextField';
+import AuthButton from '../components/ui/AuthButton';
+import TextField from '../components/ui/TextField';
 
 const Signup = ({ history }: RouteComponentProps): ReactElement => {
   const [error, setError] = useState('');
