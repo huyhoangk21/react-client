@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 const Search = (): ReactElement => {
   return (
     <input
+      autoComplete='off'
       type='text'
       name='search'
       id='search'
