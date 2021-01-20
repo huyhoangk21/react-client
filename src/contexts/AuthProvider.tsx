@@ -77,7 +77,6 @@ const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
             payload: {
               authenticated: true,
               ...data,
-              // 'https://secure.gravatar.com/avatar/?s=190&d=mm&r=g',
             },
           });
         } catch (error) {
