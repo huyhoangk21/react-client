@@ -1,49 +1,15 @@
 import { ReactElement, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axios from '../../api/axios';
-import UserSummaryResponse from '../../interfaces/UserSummaryResponse';
+
+import useSearch from '../../hooks/useSearch';
 
 const Search = (): ReactElement => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
   const [show, setShow] = useState(true);
-  const [users, setUsers] = useState<UserSummaryResponse[]>([]);
+
   const searchRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500);
-    return () => {
-      clearTimeout(interval);
-    };
-  }, [searchTerm]);
-
-  useEffect(() => {
-    let fetch = true;
-    const fetchUsers = async (): Promise<void> => {
-      try {
-        const { data }: { data: UserSummaryResponse[] } = await axios.get(
-          '/users',
-          {
-            params: {
-              username: debouncedSearchTerm,
-            },
-            headers: {
-              Authorization: localStorage.getItem('token'),
-            },
-          }
-        );
-        setUsers(data);
-      } catch (error) {
-        console.log(error.response.data.errors);
-      }
-    };
-    if (fetch && debouncedSearchTerm) fetchUsers();
-    return () => {
-      fetch = false;
-    };
-  }, [debouncedSearchTerm]);
+  const users = useSearch(searchTerm);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -89,7 +55,7 @@ const Search = (): ReactElement => {
       />
       <ul
         className={`absolute bg-white rounded-sm shadow-lg w-56 left-1/2 transform -translate-x-1/2 top-10 border border-gray-50 ${
-          debouncedSearchTerm && show ? 'block' : 'hidden'
+          searchTerm && show ? 'block' : 'hidden'
         }`}
       >
         {renderedUsers}
