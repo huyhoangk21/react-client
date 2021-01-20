@@ -8,10 +8,10 @@ import {
 } from '../../contexts/AuthProvider';
 
 const Dashboard = (): ReactElement => {
-  const { imageUrl } = useContext(AuthStateContext);
+  const { imageUrl, username } = useContext(AuthStateContext);
   const dispatch = useContext(AuthDispatchContext);
   const [show, setShow] = useState(false);
-  const dashboardRef = useRef<any>(null);
+  const dashboardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -21,7 +21,10 @@ const Dashboard = (): ReactElement => {
   }, []);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (dashboardRef.current && !dashboardRef.current.contains(e.target)) {
+    if (
+      dashboardRef.current &&
+      !dashboardRef.current.contains(e.target as Node)
+    ) {
       setShow(false);
     }
   };
@@ -51,7 +54,7 @@ const Dashboard = (): ReactElement => {
         }`}
       >
         <Link
-          to='/profile'
+          to={`/${username}`}
           className='flex items-center px-4 pt-4 pb-2 hover:bg-gray-50'
         >
           <FaRegUserCircle className='mr-3' /> Profile
