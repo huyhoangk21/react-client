@@ -1,4 +1,5 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
+import axios from '../../api/axios';
 
 const Search = (): ReactElement => {
   return (

@@ -3,6 +3,7 @@ import { ReactElement, useContext, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from '../api/axios';
 import { AuthActionTypes, AuthDispatchContext } from '../contexts/AuthProvider';
+import UserSummaryResponse from '../interfaces/UserSummaryResponse';
 import LoginSchema from '../validations/LoginSchema';
 import AuthButton from '../components/ui/AuthButton';
 import TextField from '../components/ui/TextField';
@@ -23,23 +24,26 @@ const Login = ({ history }: RouteComponentProps): ReactElement => {
     validateOnBlur: false,
     onSubmit: async ({ email, password }) => {
       try {
-        const { headers, data } = await axios.post('/auth/login', {
-          email,
-          password,
-        });
+        const {
+          headers,
+          data,
+        }: { headers: any; data: UserSummaryResponse } = await axios.post(
+          '/auth/login',
+          {
+            email,
+            password,
+          }
+        );
         localStorage.setItem('token', headers.authorization);
         dispatch({
           type: AuthActionTypes.LOGIN,
           payload: {
             authenticated: true,
-            userId: data.userId,
-            username: data.username,
-            imageUrl: data.profile.imageUrl,
+            ...data,
           },
         });
         history.push('/');
       } catch (error) {
-        console.log(error);
         setError('Email or password is incorrect');
       }
     },

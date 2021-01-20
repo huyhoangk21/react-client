@@ -7,6 +7,7 @@ import {
   Dispatch,
 } from 'react';
 import axios from '../api/axios';
+import UserSummaryResponse from '../interfaces/UserSummaryResponse';
 
 interface AuthState {
   authenticated: boolean;
@@ -63,20 +64,20 @@ const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     if (token) {
       const fetchMe = async (): Promise<void> => {
         try {
-          const { data } = await axios.get('/auth/me', {
-            headers: {
-              Authorization: token,
-            },
-          });
+          const { data }: { data: UserSummaryResponse } = await axios.get(
+            '/auth/me',
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
           dispatch({
             type: AuthActionTypes.LOGIN,
             payload: {
               authenticated: true,
-              userId: data.userId,
-              username: data.username,
-              imageUrl:
-                // data.profile.imageUrl ||
-                'https://secure.gravatar.com/avatar/?s=190&d=mm&r=g',
+              ...data,
+              // 'https://secure.gravatar.com/avatar/?s=190&d=mm&r=g',
             },
           });
         } catch (error) {
