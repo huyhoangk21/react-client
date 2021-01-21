@@ -5,9 +5,7 @@ import useSearch from '../../hooks/useSearch';
 
 const Search = (): ReactElement => {
   const [searchTerm, setSearchTerm] = useState('');
-
   const [show, setShow] = useState(true);
-
   const searchRef = useRef<HTMLDivElement>(null);
   const users = useSearch(searchTerm);
 
